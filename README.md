@@ -1,5 +1,150 @@
 # Vasundhara Shivhare
-..
+# NewProject
+
+1:- To reverse a stack using only stack operations without any additional data structures, you can utilize recursion. The key idea is to remove the elements from the stack until it is empty, and then push them back in reverse order.
+
+Here's how you can implement this in Python:
+
+Python Code
+python
+Copy code
+def reverse_stack(stack):
+    if not stack:
+        return
+
+    # Step 1: Remove the top element
+    top = stack.pop()
+    
+    # Step 2: Reverse the remaining stack
+    reverse_stack(stack)
+    
+    # Step 3: Insert the top element at the bottom of the reversed stack
+    insert_at_bottom(stack, top)
+
+def insert_at_bottom(stack, item):
+    if not stack:
+        stack.append(item)
+        return
+    
+    # Step 1: Remove all elements
+    top = stack.pop()
+    
+    # Step 2: Insert the item at the bottom
+    insert_at_bottom(stack, item)
+    
+    # Step 3: Push the removed elements back onto the stack
+    stack.append(top)
+
+# Example usage
+stack = [1, 2, 3, 4, 5]
+reverse_stack(stack)
+print(stack)  # Output: [5, 4, 3, 2, 1]
+Explanation
+Reverse Stack Function:
+
+It checks if the stack is empty. If it is, it returns (base case).
+It pops the top element from the stack.
+Calls itself recursively to reverse the remaining stack.
+Finally, it inserts the popped element at the bottom of the reversed stack.
+Insert at Bottom Function:
+
+It checks if the stack is empty. If it is, it pushes the item onto the stack.
+If not, it pops the top element and calls itself recursively to insert the item at the bottom.
+After inserting, it pushes the popped elements back onto the stack.
+
+Output
+When you run this code with the provided example, it will output:
+csharp
+Copy code
+[5, 4, 3, 2, 1]
+This method effectively reverses the stack using only stack operations, fulfilling the requirements specified.
+
+2:- The Three Sum problem is a classic algorithm problem where the goal is to find all unique triplets in an array that sum to zero. Here's a Python solution that accomplishes this efficiently using sorting and a two-pointer approach.
+
+Python Code
+python
+Copy code
+def three_sum(nums):
+    nums.sort()  # Sort the array
+    triplets = []
+
+    for i in range(len(nums) - 2):
+        # Skip duplicate values for the first element
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            current_sum = nums[i] + nums[left] + nums[right]
+
+            if current_sum < 0:
+                left += 1  # We need a larger sum
+            elif current_sum > 0:
+                right -= 1  # We need a smaller sum
+            else:
+                # Found a triplet
+                triplets.append((nums[i], nums[left], nums[right]))
+                
+                # Skip duplicates for the second element
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                
+                # Skip duplicates for the third element
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+                
+                left += 1
+                right -= 1
+
+    return triplets
+
+# Example usage
+nums = [-1, 0, 1, 2, -1, -4]
+result = three_sum(nums)
+print(result)  # Output: [(-1, -1, 2), (-1, 0, 1)]
+
+Output
+For the input array [-1, 0, 1, 2, -1, -4], the output will be:
+
+css
+Copy code
+[(-1, -1, 2), (-1, 0, 1)]
+
+3:- To implement Depth-First Search (DFS) for traversing a graph represented by an adjacency list, you can use either a recursive or an iterative approach. Below is a Python implementation of both methods.
+
+Graph Representation
+We'll represent the graph using a dictionary where each key is a vertex and its value is a list of adjacent vertices.
+
+Sample Code
+python
+Copy code
+# Sample graph represented as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+# Recursive DFS
+def dfs_recursive(graph, vertex, visited=None):
+    if visited is None:
+        visited = set()  # Initialize visited set
+
+    visited.add(vertex)  # Mark the current vertex as visited
+    print(vertex)  # Process the current vertex
+
+    for neighbor in graph[vertex]:
+        if neighbor not in visited:
+            dfs_recursive(graph, neighbor, visited)  # Visit unvisited neighbors
+
+# Iterative DFS
+def dfs_iterative(graph, start_vertex):
+    visited = set()  # Initialize visited set
+    stack = [start_vertex]  # Initialize stack with the starting vertex
 
     while stack:
         vertex = stack.pop()  # Pop a vertex from the stack
